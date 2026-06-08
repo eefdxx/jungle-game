@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Jungle Rescue: Petualangan Ranger Cilik - Game edukasi mengenal hewan untuk anak TK. Belajar sambil bermain mengenal jenis-jenis binatang." />
+  <meta name="theme-color" content="#2E7D32" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Jungle Rescue: Petualangan Ranger Cilik</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!--  LOADING SCREEN                                              -->
+  <!-- ============================================================ -->
+  <div id="screen-loading" class="screen screen--loading active">
+    <div class="loading__bg"></div>
+    <div class="loading__leaves">
+      <span class="leaf leaf--1">🍃</span>
+      <span class="leaf leaf--2">🌿</span>
+      <span class="leaf leaf--3">🍃</span>
+      <span class="leaf leaf--4">🌿</span>
+    </div>
+    <div class="loading__content">
+      <div class="loading__logo">
+        <div class="loading__icon">🌿</div>
+        <h1 class="loading__title">Jungle Rescue</h1>
+        <p class="loading__sub">Petualangan Ranger Cilik</p>
+      </div>
+      <div class="loading__animals">
+        <span class="loading-animal">🦁</span>
+        <span class="loading-animal">🐘</span>
+        <span class="loading-animal">🐒</span>
+        <span class="loading-animal">🦒</span>
+      </div>
+      <div class="loading__bar-wrap">
+        <div class="loading__bar">
+          <div class="loading__bar-fill" id="loading-bar-fill"></div>
+        </div>
+        <p class="loading__hint">Memuat petualangan...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!--  HOME SCREEN                                                 -->
+  <!-- ============================================================ -->
+  <div id="screen-home" class="screen screen--home">
+    <div class="home__bg"></div>
+
+    <!-- Floating decorative animals -->
+    <div class="home__deco">
+      <span class="deco-animal deco-animal--tl">🐦</span>
+      <span class="deco-animal deco-animal--tr">🦋</span>
+      <span class="deco-animal deco-animal--bl">🐸</span>
+      <span class="deco-animal deco-animal--br">🦜</span>
+    </div>
+
+    <!-- Floating leaves -->
+    <div class="floating-leaves" aria-hidden="true">
+      <span class="fl fl-1">🍃</span>
+      <span class="fl fl-2">🌿</span>
+      <span class="fl fl-3">🍃</span>
+      <span class="fl fl-4">🌿</span>
+      <span class="fl fl-5">🍃</span>
+    </div>
+
+    <!-- Top bar -->
+    <div class="home__topbar">
+      <button id="btn-sound-home" class="icon-btn" title="Toggle Suara" aria-label="Toggle suara">🔊</button>
+      <button id="btn-fullscreen" class="icon-btn" title="Fullscreen" aria-label="Layar penuh">⛶</button>
+      <button id="btn-info" class="icon-btn" title="Info" aria-label="Informasi game">ℹ️</button>
+    </div>
+
+    <!-- Main content -->
+    <div class="home__content">
+      <div class="home__logo-wrap">
+        <div class="home__logo-icon">🌿</div>
+        <h1 class="home__title">Jungle Rescue</h1>
+        <p class="home__subtitle">Petualangan Ranger Cilik</p>
+      </div>
+
+      <div class="home__animals-parade">
+        <div class="parade-animal">
+          <img src="assets/images/animals/lion.png" alt="Singa" class="parade-img" onerror="this.style.display='none';this.parentElement.querySelector('.parade-emoji').style.display='block'" />
+          <span class="parade-emoji" style="display:none">🦁</span>
+        </div>
+        <div class="parade-animal">
+          <img src="assets/images/animals/elephant.png" alt="Gajah" class="parade-img" onerror="this.style.display='none';this.parentElement.querySelector('.parade-emoji').style.display='block'" />
+          <span class="parade-emoji" style="display:none">🐘</span>
+        </div>
+        <div class="parade-animal">
+          <img src="assets/images/animals/monkey.png" alt="Monyet" class="parade-img" onerror="this.style.display='none';this.parentElement.querySelector('.parade-emoji').style.display='block'" />
+          <span class="parade-emoji" style="display:none">🐒</span>
+        </div>
+      </div>
+
+      <button id="btn-play" class="btn-play pulse" aria-label="Mulai bermain">
+        <span class="btn-play__icon">▶</span>
+        <span class="btn-play__text">MAIN!</span>
+      </button>
+
+      <p class="home__credit">Kelompok 5 · Sistem Multimedia</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!--  LEVEL SELECT SCREEN                                         -->
+  <!-- ============================================================ -->
+  <div id="screen-levels" class="screen screen--levels">
+    <div class="screen-bg screen-bg--levels"></div>
+    <div class="floating-leaves" aria-hidden="true">
+      <span class="fl fl-1">🍃</span>
+      <span class="fl fl-3">🌿</span>
+      <span class="fl fl-5">🍃</span>
+    </div>
+    <div class="levels__header">
+      <button id="btn-back-home" class="back-btn" aria-label="Kembali ke beranda">⬅</button>
+      <h2 class="levels__title">🗺️ Pilih Level</h2>
+      <button id="btn-sound-level" class="icon-btn" aria-label="Toggle suara">🔊</button>
+    </div>
+    <div class="levels__grid" id="levels-grid" role="list" aria-label="Daftar level"></div>
+    <div class="levels__footer">
+      <button id="btn-reset-progress" class="btn-reset" aria-label="Reset progress">🔄 Reset Progress</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!--  GAME SCREEN                                                 -->
+  <!-- ============================================================ -->
+  <div id="screen-game" class="screen screen--game">
+    <div class="screen-bg screen-bg--game"></div>
+    <div class="floating-leaves" aria-hidden="true">
+      <span class="fl fl-2">🍃</span>
+      <span class="fl fl-4">🌿</span>
+    </div>
+
+    <!-- Game header -->
+    <div class="game__header">
+      <button id="btn-back-levels" class="back-btn" aria-label="Kembali ke pilih level">⬅</button>
+      <div class="game__info">
+        <span class="game__level-name" id="game-level-name">Level 1</span>
+        <div class="game__progress-bar">
+          <div class="game__progress-fill" id="game-progress-fill"></div>
+        </div>
+      </div>
+      <div class="game__header-right">
+        <button id="btn-sound-game" class="icon-btn" aria-label="Toggle suara">🔊</button>
+        <button id="btn-restart-level" class="icon-btn" aria-label="Ulangi level">🔄</button>
+      </div>
+    </div>
+
+    <!-- Score display -->
+    <div class="game__score-bar">
+      <div class="game__q-counter">
+        <span id="q-current">1</span> / <span id="q-total">5</span>
+      </div>
+      <div class="game__stars-live">
+        <span class="star-live" id="star-1">⭐</span>
+        <span class="star-live" id="star-2">⭐</span>
+        <span class="star-live" id="star-3">⭐</span>
+      </div>
+      <div class="game__errors">
+        ❌ <span id="error-count">0</span>
+      </div>
+    </div>
+
+    <!-- Game content area — filled by JS -->
+    <div class="game__content" id="game-content"></div>
+
+    <!-- Feedback overlay -->
+    <div class="feedback-overlay" id="feedback-overlay" aria-live="polite">
+      <div class="feedback-box" id="feedback-box">
+        <div class="feedback-icon" id="feedback-icon"></div>
+        <div class="feedback-text" id="feedback-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!--  VICTORY SCREEN                                              -->
+  <!-- ============================================================ -->
+  <div id="screen-victory" class="screen screen--victory">
+    <div class="screen-bg screen-bg--home"></div>
+    <div id="confetti-container" class="confetti-container" aria-hidden="true"></div>
+    <div class="victory__content">
+      <div class="victory__badge">🏆</div>
+      <h2 class="victory__title">Selamat!</h2>
+      <p class="victory__subtitle">Kamu menjadi Ranger Hebat!</p>
+
+      <div class="victory__stars" id="victory-stars" aria-label="Bintang yang didapat"></div>
+      <p class="victory__score-text" id="victory-score-text"></p>
+
+      <div class="victory__animals" aria-hidden="true">
+        <span>🦁</span><span>🐘</span><span>🐒</span><span>🦒</span><span>🐦</span>
+      </div>
+
+      <div class="victory__actions">
+        <button id="btn-victory-next" class="btn-action btn-action--primary" aria-label="Level berikutnya">
+          ➡️ Level Berikutnya
+        </button>
+        <button id="btn-victory-replay" class="btn-action btn-action--secondary" aria-label="Main lagi">
+          🔄 Main Lagi
+        </button>
+        <button id="btn-victory-levels" class="btn-action btn-action--outline" aria-label="Pilih level">
+          🗺️ Pilih Level
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!--  MODALS                                                      -->
+  <!-- ============================================================ -->
+
+  <!-- Info Modal -->
+  <div id="modal-info" class="modal" role="dialog" aria-labelledby="modal-info-title" aria-modal="true">
+    <div class="modal__backdrop"></div>
+    <div class="modal__box">
+      <button class="modal__close" id="btn-close-info" aria-label="Tutup">✕</button>
+      <div class="modal__icon">🌿</div>
+      <h3 class="modal__title" id="modal-info-title">Jungle Rescue</h3>
+      <p class="modal__text">Game edukasi mengenal hewan untuk anak TK!</p>
+      <div class="modal__info-grid">
+        <div class="modal__info-item"><span>🦁</span> Tebak Suara Hewan</div>
+        <div class="modal__info-item"><span>🏡</span> Hewan & Habitat</div>
+        <div class="modal__info-item"><span>🍎</span> Beri Makan Hewan</div>
+        <div class="modal__info-item"><span>👥</span> Tebak Bayangan</div>
+        <div class="modal__info-item"><span>🎯</span> Misi Penyelamatan</div>
+      </div>
+      <p class="modal__credit">Kelompok 5 · Sistem Multimedia</p>
+      <button class="btn-modal-close" id="btn-info-ok" aria-label="Mengerti">Mengerti! 👍</button>
+    </div>
+  </div>
+
+  <!-- Reset Confirm Modal -->
+  <div id="modal-reset" class="modal" role="dialog" aria-labelledby="modal-reset-title" aria-modal="true">
+    <div class="modal__backdrop"></div>
+    <div class="modal__box">
+      <div class="modal__icon">⚠️</div>
+      <h3 class="modal__title" id="modal-reset-title">Reset Progress?</h3>
+      <p class="modal__text">Semua bintang dan level yang sudah dibuka akan direset.</p>
+      <div class="modal__actions">
+        <button id="btn-reset-cancel" class="btn-modal-secondary" aria-label="Batal">Batal</button>
+        <button id="btn-reset-confirm" class="btn-modal-danger" aria-label="Ya, reset">Ya, Reset!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
