@@ -2109,48 +2109,124 @@ button {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   19c. RESPONSIVE — Landscape & Wide Screens
+   19c. RESPONSIVE — Desktop & Wide Screens
    ────────────────────────────────────────────────────────────── */
-@media (orientation: landscape) {
+
+/* Desktop landscape: keep column layout, scale up elements */
+@media (min-width: 768px) and (orientation: landscape) {
   .game__content {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3rem;
+    gap: .6rem;
     width: 100%;
-    max-width: 1000px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
   }
 
   .game-instruction {
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
+    max-width: 480px;
+    font-size: 1.15rem;
   }
 
   .animal-display {
-    width: 160px;
-    height: 160px;
+    width: 140px;
+    height: 140px;
+  }
+
+  .animal-display img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .animal-display__emoji,
+  .animal-display .fallback-emoji {
+    font-size: 3.5rem;
   }
 
   .answer-grid {
-    max-width: 500px;
+    max-width: 480px;
+    gap: .9rem;
+  }
+
+  .answer-card {
+    min-height: 100px;
+    padding: .8rem .5rem;
+  }
+
+  .answer-card__img {
+    width: 58px;
+    height: 58px;
+  }
+
+  .answer-card__emoji,
+  .answer-card .fallback-emoji {
+    font-size: 2.6rem;
+  }
+
+  .answer-card__text {
+    font-size: .82rem;
+  }
+
+  .btn-listen {
+    max-width: 360px;
+    font-size: 1.1rem;
+    padding: 1rem;
+  }
+
+  .mission-story {
+    max-width: 480px;
+    font-size: 1rem;
+  }
+
+  .mission-step {
+    width: 42px;
+    height: 42px;
+    font-size: .95rem;
+  }
+}
+
+/* Large desktop: side-by-side layout with enough room */
+@media (min-width: 1024px) and (min-height: 650px) and (orientation: landscape) {
+  .game__content {
+    max-width: 900px;
+  }
+
+  .answer-grid {
+    max-width: 520px;
     gap: 1rem;
   }
 
   .answer-card {
     min-height: 110px;
+    padding: .9rem .6rem;
+  }
+
+  .answer-card__img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .answer-card__emoji,
+  .answer-card .fallback-emoji {
+    font-size: 2.8rem;
   }
 }
 
-/* Small Landscape (Phones) */
+/* Small Landscape (Phones) — override desktop rules */
 @media (orientation: landscape) and (max-height: 500px) {
   .game__content {
-    gap: 1rem;
+    flex-direction: column;
+    gap: .4rem;
     max-width: 100%;
+    padding: .4rem .8rem;
   }
 
   .game-instruction {
     margin-bottom: .3rem;
     font-size: .85rem;
+    max-width: 340px;
   }
 
   .animal-display {
@@ -2176,6 +2252,17 @@ button {
 
   .answer-card {
     min-height: 55px;
+    padding: .4rem .3rem;
+  }
+
+  .answer-card__img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .answer-card__emoji,
+  .answer-card .fallback-emoji {
+    font-size: 1.6rem;
   }
 }
 

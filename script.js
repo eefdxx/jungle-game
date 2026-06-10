@@ -27,17 +27,17 @@ const ASSETS = {
     food: {
       banana:      'assets/images/food/banana.png',
       carrot:      'assets/images/food/carrot.png',
-      grass:       'assets/images/food/grass.svg',
-      'fish-food': 'assets/images/food/fish-food.svg',
-      seed:        'assets/images/food/seed.svg',
-      meat:        'assets/images/food/meat.svg',
+      grass:       'assets/images/food/grass.png',
+      'fish-food': 'assets/images/food/fish-food.png',
+      seed:        'assets/images/food/seed.png',
+      meat:        'assets/images/food/meat.png',
     },
     habitat: {
       forest:    'assets/images/habitat/forest.png',
       river:     'assets/images/habitat/river.png',
       grassland: 'assets/images/habitat/grassland.png',
-      tree:      'assets/images/habitat/tree.svg',
-      farm:      'assets/images/habitat/farm.svg',
+      tree:      'assets/images/habitat/tree.png',
+      farm:      'assets/images/habitat/farm.png',
     },
     backgrounds: {
       home:  'assets/images/background/jungle-home.png',
