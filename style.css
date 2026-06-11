@@ -487,6 +487,11 @@ button {
   transition: transform .2s, background .2s;
 }
 
+.icon-btn:hover {
+  background: rgba(255, 255, 255, .32);
+  transform: scale(1.05);
+}
+
 .icon-btn:active {
   transform: scale(.9);
   background: rgba(255, 255, 255, .35);
@@ -595,6 +600,14 @@ button {
   position: relative;
 }
 
+.btn-play:hover {
+  transform: scale(1.08);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 40px rgba(255, 201, 40, .55),
+    inset 0 -4px 0 rgba(0, 0, 0, .15);
+}
+
 .btn-play:active {
   transform: scale(.92) !important;
   box-shadow: var(--shadow-sm), 0 0 15px rgba(255, 201, 40, .3);
@@ -687,6 +700,11 @@ button {
   transition: transform .2s;
 }
 
+.back-btn:hover {
+  background: rgba(255, 255, 255, .28);
+  transform: scale(1.05);
+}
+
 .back-btn:active {
   transform: scale(.9);
 }
@@ -694,6 +712,8 @@ button {
 /* Level grid */
 .levels__grid {
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -733,6 +753,12 @@ button {
 
 .level-card.unlocked::before {
   opacity: 1;
+}
+
+.level-card.unlocked:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg), 0 0 16px rgba(126, 217, 87, .25);
+  border-color: rgba(126, 217, 87, .35);
 }
 
 .level-card.unlocked:active {
@@ -794,6 +820,14 @@ button {
   display: flex;
   gap: .15rem;
   margin-top: .2rem;
+}
+
+.level-card__desc {
+  font-size: .68rem;
+  font-weight: 600;
+  color: #999;
+  margin-top: .1rem;
+  line-height: 1.2;
 }
 
 .level-card__star {
@@ -864,6 +898,11 @@ button {
   font-weight: 700;
   border: 1px solid rgba(255, 255, 255, .15);
   transition: background .2s;
+}
+
+.btn-reset:hover {
+  background: rgba(255, 255, 255, .2);
+  color: rgba(255, 255, 255, .85);
 }
 
 .btn-reset:active {
@@ -1159,6 +1198,12 @@ button {
   }
 }
 
+.answer-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md), 0 0 12px rgba(255, 201, 40, .25);
+  border-color: rgba(255, 201, 40, .5);
+}
+
 .answer-card:active {
   transform: scale(.94);
 }
@@ -1184,6 +1229,22 @@ button {
 .answer-card.disabled {
   pointer-events: none;
   opacity: .55;
+}
+
+.answer-card.disabled:hover,
+.answer-card.correct:hover,
+.answer-card.wrong:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Highlight correct answer after wrong attempts */
+.answer-card.correct-reveal {
+  border-color: var(--correct);
+  background: var(--correct-bg);
+  box-shadow: 0 0 18px rgba(76, 175, 80, .4);
+  opacity: 1 !important;
+  animation: correctPop .5s ease-out;
 }
 
 .answer-card__img {
@@ -1228,6 +1289,11 @@ button {
   border: 3px solid rgba(255, 255, 255, .3);
   transition: transform .2s;
   margin: .3rem auto;
+}
+
+.btn-listen:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(126, 217, 87, .4);
 }
 
 .btn-listen:active {
@@ -1491,6 +1557,11 @@ button {
   min-height: 48px;
 }
 
+.btn-action:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
 .btn-action:active {
   transform: scale(.95);
 }
@@ -1675,6 +1746,11 @@ button {
   min-height: 48px;
 }
 
+.btn-modal-close:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-md), var(--shadow-glow-green);
+}
+
 .btn-modal-close:active {
   transform: scale(.95);
 }
@@ -1696,6 +1772,10 @@ button {
   min-height: 48px;
 }
 
+.btn-modal-secondary:hover {
+  background: #e0e0e0;
+}
+
 .btn-modal-secondary:active {
   transform: scale(.95);
 }
@@ -1710,6 +1790,11 @@ button {
   box-shadow: var(--shadow-sm);
   transition: transform .15s;
   min-height: 48px;
+}
+
+.btn-modal-danger:hover {
+  box-shadow: var(--shadow-md), 0 0 15px rgba(244, 67, 54, .3);
+  transform: scale(1.02);
 }
 
 .btn-modal-danger:active {

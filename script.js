@@ -135,7 +135,6 @@ const state = {
   missionRound: 0,
   missionStep: 0,      // 0=sound, 1=food, 2=habitat
   missionAnimals: [],
-  missionCorrectThisRound: true,
 
   /* Progress saved to localStorage */
   progress: {
@@ -191,7 +190,6 @@ const AudioManager = {
   bgmVolume: 0.25,
   sfxVolume: 0.65,
   _cache: {},
-  _fadeTimers: [],
 
   init() {
     const saved = localStorage.getItem('jr_sound');
@@ -233,7 +231,12 @@ const AudioManager = {
     try {
       const src = ASSETS.sounds.effects[name];
       if (!src) return;
-      const audio = new Audio(src);
+      // Use cached audio template and clone for overlapping playback
+      if (!this._cache[src]) {
+        this._cache[src] = new Audio(src);
+        this._cache[src].preload = 'auto';
+      }
+      const audio = this._cache[src].cloneNode();
       audio.volume = this.sfxVolume;
       const p = audio.play();
       if (p && p.catch) p.catch(() => {});
@@ -431,6 +434,21 @@ function showScreen(name) {
 
     // Remove 'entering' class after animation so it doesn't interfere
     setTimeout(() => target.classList.remove('entering'), 400);
+
+    // Focus management: move focus to main interactive element
+    setTimeout(() => {
+      const focusMap = {
+        home: '#btn-play',
+        levels: '#levels-grid',
+        game: '#game-content',
+        victory: '#btn-victory-replay',
+      };
+      const sel = focusMap[name];
+      if (sel) {
+        const el = target.querySelector(sel) || $(sel);
+        if (el) el.focus({ preventScroll: true });
+      }
+    }, 450);
   }
 }
 
@@ -548,6 +566,7 @@ function renderLevelSelect() {
       <div class="level-card__body">
         <div class="level-card__num">Level ${level.id}</div>
         <div class="level-card__name">${level.name}</div>
+        <div class="level-card__desc">${level.desc}</div>
         <div class="level-card__stars">
           ${[1,2,3].map(i =>
             `<span class="level-card__star ${i <= stars ? 'earned' : ''}">⭐</span>`
@@ -591,7 +610,6 @@ function startLevel(levelNum) {
     state.missionAnimals = shuffleArray(
       ALL_ANIMAL_KEYS.filter(k => gameData.animals[k].hasSound)
     ).slice(0, 3);
-    state.missionCorrectThisRound = true;
   } else {
     state.totalQuestions = 5;
     state.questions = generateQuestions(levelNum);
@@ -1063,6 +1081,9 @@ function handleAnswer(selected, correct, cardEl, isShadow) {
     AudioManager.playSFX('wrong');
     showFeedback(false);
 
+    // Count remaining enabled cards (excluding the one just clicked)
+    const remainingCards = allCards.filter(c => c !== cardEl && !c.classList.contains('disabled') && !c.classList.contains('wrong'));
+
     // FIX: Use a Set to track which cards should stay disabled
     setTimeout(() => {
       state.answered = false;
@@ -1075,6 +1096,20 @@ function handleAnswer(selected, correct, cardEl, isShadow) {
           c.classList.remove('disabled');
         }
       });
+
+      // If only the correct answer remains, auto-reveal it
+      if (remainingCards.length <= 1) {
+        allCards.forEach(c => {
+          // Find the correct card by checking its aria-label or data
+          const label = c.getAttribute('aria-label');
+          // Highlight all non-disabled, non-wrong cards as correct-reveal
+          if (!c.classList.contains('disabled') && !c.classList.contains('wrong')) {
+            c.classList.add('correct-reveal', 'disabled');
+          }
+        });
+        state.answered = true;
+        setTimeout(() => nextQuestion(), 1500);
+      }
     }, 1000);
   }
 }
@@ -1114,10 +1149,12 @@ function handleMissionAnswer(selected, correct, cardEl) {
   } else {
     cardEl.classList.add('wrong');
     state.errors++;
-    state.missionCorrectThisRound = false;
     updateGameUI();
     AudioManager.playSFX('wrong');
     showFeedback(false);
+
+    // Count remaining enabled cards
+    const remainingCards = allCards.filter(c => c !== cardEl && !c.classList.contains('disabled') && !c.classList.contains('wrong'));
 
     setTimeout(() => {
       state.answered = false;
@@ -1129,6 +1166,33 @@ function handleMissionAnswer(selected, correct, cardEl) {
           c.classList.remove('disabled');
         }
       });
+
+      // If only the correct answer remains, auto-reveal it
+      if (remainingCards.length <= 1) {
+        allCards.forEach(c => {
+          if (!c.classList.contains('disabled') && !c.classList.contains('wrong')) {
+            c.classList.add('correct-reveal', 'disabled');
+          }
+        });
+        state.answered = true;
+        // Advance mission step after reveal
+        setTimeout(() => {
+          state.missionStep++;
+          if (state.missionStep >= 3) {
+            state.missionRound++;
+            state.missionStep = 0;
+            state.currentQuestion = state.missionRound;
+            if (state.missionRound >= state.missionAnimals.length) {
+              completeLevel();
+            } else {
+              updateGameUI();
+              renderMissionQuestion();
+            }
+          } else {
+            renderMissionQuestion();
+          }
+        }, 1500);
+      }
     }, 1000);
   }
 }
@@ -1144,7 +1208,6 @@ function showFeedback(isCorrect) {
     dom.feedbackIcon.textContent = '🎉';
     const texts = ['Benar!', 'Hebat!', 'Pintar!', 'Keren!', 'Yeay!'];
     dom.feedbackText.textContent = texts[Math.floor(Math.random() * texts.length)];
-    AudioManager.playSFX('yeay');
   } else {
     dom.feedbackIcon.textContent = '😅';
     const texts = ['Coba lagi ya!', 'Hmm, bukan itu', 'Ayo coba lagi!'];
@@ -1288,12 +1351,24 @@ function showVictoryScreen(stars) {
    21. GAME UI UPDATE
    ────────────────────────────────────────────────────────────── */
 function updateGameUI() {
-  dom.qCurrent.textContent = state.currentQuestion + 1;
-  dom.qTotal.textContent = state.totalQuestions;
   dom.errorCount.textContent = state.errors;
 
-  // Progress bar
-  const pct = (state.currentQuestion / state.totalQuestions) * 100;
+  // Progress bar — Level 5 tracks per-step (3 rounds × 3 steps = 9 total)
+  let pct, currentDisplay, totalDisplay;
+  if (state.currentLevel === 5) {
+    const totalSteps = state.missionAnimals.length * 3; // 9
+    const completedSteps = (state.missionRound * 3) + state.missionStep;
+    pct = (completedSteps / totalSteps) * 100;
+    currentDisplay = state.missionRound + 1;
+    totalDisplay = state.missionAnimals.length || state.totalQuestions;
+  } else {
+    pct = (state.currentQuestion / state.totalQuestions) * 100;
+    currentDisplay = state.currentQuestion + 1;
+    totalDisplay = state.totalQuestions;
+  }
+
+  dom.qCurrent.textContent = currentDisplay;
+  dom.qTotal.textContent = totalDisplay;
   dom.gameProgressFill.style.width = pct + '%';
 
   // Live stars

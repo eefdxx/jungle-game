@@ -130,10 +130,9 @@ Game ini menerapkan konsep multimedia melalui:
 |----------|--------|--------|-----------|
 | Hewan | 10 | PNG | Gambar kartun hewan transparan |
 | Background | 3 | PNG | Latar hutan untuk setiap screen |
-| Makanan | 5 | PNG | Gambar makanan hewan |
+| Makanan | 6 | PNG | Gambar makanan hewan |
 | Habitat | 5 | PNG | Gambar lingkungan habitat |
-| Ikon | 7 | PNG | Ikon UI (play, star, lock, dll.) |
-| UI | 4 | PNG | Elemen dekoratif (papan kayu, dll.) |
+| Ikon | 1 | PNG | Favicon browser |
 
 ### 7.2 Audio
 | Kategori | Jumlah | Format | Deskripsi |
@@ -228,10 +227,10 @@ const AudioManager = {
 ## 9. Aspek Keamanan
 
 ### 9.1 Asset Lokal
-- ✅ Semua gambar, audio, dan font di-host secara lokal
-- ✅ Tidak ada hotlinking ke server eksternal
+- ✅ Semua gambar dan audio di-host secara lokal
+- ✅ Tidak ada hotlinking ke server eksternal untuk asset media
 - ✅ Game berjalan sepenuhnya offline setelah dimuat
-- ✅ Satu-satunya koneksi eksternal: Google Fonts (opsional, ada fallback)
+- ✅ Font Nunito dimuat dari Google Fonts CDN dengan fallback system font
 
 ### 9.2 Tidak Ada Data Sensitif
 - ✅ Tidak mengumpulkan data pribadi pengguna
@@ -240,8 +239,8 @@ const AudioManager = {
 - ✅ Tidak ada tracking atau analytics
 
 ### 9.3 Tidak Menggunakan eval()
-- ✅ Tidak ada penggunaan `eval()`, `Function()`, atau `innerHTML` yang berbahaya
-- ✅ Konten dinamis dibuat melalui DOM manipulation yang aman
+- ✅ Tidak ada penggunaan `eval()` atau `Function()` yang berbahaya
+- ✅ `innerHTML` digunakan untuk template rendering, namun hanya dengan data internal game (bukan input pengguna)
 - ✅ Tidak ada injeksi kode dari sumber eksternal
 
 ### 9.4 localStorage Hanya untuk Progress
